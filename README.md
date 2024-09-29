@@ -1,4 +1,4 @@
-#Receipies
+# Receipies
 Receipies is a simple web application built using Django, where users can manage their favorite recipes. It features functionality for adding, editing, viewing, and deleting recipes, along with user authentication and image upload.
 
 ## Features
