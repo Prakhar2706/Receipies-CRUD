@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .container {
+        max-width: 1000px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .table img {
+        height: 100px;
+        width: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    @media (max-width: 768px) {
+        .form-group label {
+            font-size: 14px;
+        }
+
+        .btn-primary, .btn-success, .btn-danger {
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center">Submit Your Recipe</h2>
+
+    <form class='col-10 col-md-6 mx-auto card p-3 shadow-lg' method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="recipeName" class="form-label">Recipe Name</label>
+            <input type="text" class="form-control" name="receipe_name" required placeholder="Enter recipe name">
+        </div>
+        <div class="form-group">
+            <label for="recipeDescription" class="form-label">Recipe Description</label>
+            <textarea class="form-control" name="receipe_description" required rows="4" placeholder="Enter recipe description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="recipeImage" class="form-label">Recipe Image</label>
+            <input type="file" class="form-control-file" name="receipe_image">
+        </div>
+        <button type="submit" class="btn btn-success">Add Recipe</button>
+    </form>
+
+    <div class="mt-5">
+        <div class="mx-auto col-10 col-md-6">
+            <form method="GET">
+                <div class="form-group">
+                    <label for="search" class="form-label">Search Recipe Name</label>
+                    <input type="text" class="form-control" name="search" placeholder="Enter recipe name">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2 class="text-center">Recipes</h2>
+
+    <table class="table table-bordered table-hover mt-4">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">S.No.</th>
+            <th scope="col">Recipe Name</th>
+            <th scope="col">Recipe Description</th>
+            <th scope="col">Recipe Image</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for receipe in receipes %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{receipe.receipe_name}}</td>
+            <td>{{receipe.receipe_description}}</td>
+            <td><img src="/media/{{receipe.receipe_image}}" alt="Recipe Image"></td>
+            <td>
+                <a href='delete/{{receipe.id}}' class="btn btn-danger btn-sm">Delete</a>
+                <a href='update/{{receipe.id}}' class="btn btn-primary btn-sm">Edit</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
